@@ -16,13 +16,10 @@ set(SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 set(SOURCE_LIST ${SOURCE_DIR}/main.c
-        ${SOURCE_DIR}/fsm.c
-        ${SOURCE_DIR}/hping.c
+        ${SOURCE_DIR}/parse_args.c
 )
 set(HEADER_LIST ${INCLUDE_DIR}
-        ${INCLUDE_DIR}/fsm.h
-        ${INCLUDE_DIR}/options.h
-        ${INCLUDE_DIR}/hping.h
+        ${INCLUDE_DIR}/parse_args.h
 )
 include_directories(${INCLUDE_DIR})
 
