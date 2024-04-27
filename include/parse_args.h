@@ -5,9 +5,12 @@
 #ifndef PARSE_ARGS_H
 #define PARSE_ARGS_H
 
-void parse_args(int argc, char *argv[]);
+#include <stdlib.h>
+#include <getopt.h>
+#include "globals.h"
+
+int parse_args(int argc, char *argv[]);
 void print_help(void);
-void set_interval(char *arg);
 
 /*
  * Default protocol is TCP,
@@ -20,8 +23,6 @@ void set_interval(char *arg);
  * --faster interval is faster than 0.1 second
  * --flood -f send as fast as possible
  *
- * -0 rawip
- * -1 icmp mode, by default hping3 will send ICMP echo-request
  * -2 udp, by default hping3 will send udp to target host's port 0.
  *
  * -a fake IP address
@@ -30,8 +31,6 @@ void set_interval(char *arg);
  * -s source port
  * -p dest port
  * -M Set the TCP sequence number.
- * -L Set the TCP ack.
- * -b send with bad checksum
  * -F set fin flag
  * -S set syn flag
  * -R set rst tcp flag
@@ -43,6 +42,8 @@ void set_interval(char *arg);
  * After last packet was send hping3 wait COUNTREACHED_TIMEOUT seconds target host replies.
  * You are able to tune COUNTREACHED_TIMEOUT editing hping3.h
  *
+ *
+ * :i:c:s:p:a:M:2rFSRPAU
  */
 
 #endif //PARSE_ARGS_H
