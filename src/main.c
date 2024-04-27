@@ -3,9 +3,9 @@
 
 int main (int argc, char *argv[])
 {
-    //parse
-    //fill the packet
-    //start the workers, send the packet
+    //parse, fill the options
+    //read the options, fill the packet
+    //send the packet
     //wait for all to be done, exit
 
     return EXIT_SUCCESS;

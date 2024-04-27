@@ -19,6 +19,7 @@ set(SOURCE_LIST ${SOURCE_DIR}/main.c
         ${SOURCE_DIR}/parse_args.c
 )
 set(HEADER_LIST ${INCLUDE_DIR}
+        ${INCLUDE_DIR}/globals.h
         ${INCLUDE_DIR}/parse_args.h
 )
 include_directories(${INCLUDE_DIR})
