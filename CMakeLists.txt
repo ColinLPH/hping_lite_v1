@@ -17,10 +17,12 @@ set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 set(SOURCE_LIST ${SOURCE_DIR}/main.c
         ${SOURCE_DIR}/parse_args.c
+        ${SOURCE_DIR}/create_packet.c
 )
 set(HEADER_LIST ${INCLUDE_DIR}
-        ${INCLUDE_DIR}/globals.h
         ${INCLUDE_DIR}/parse_args.h
+        ${INCLUDE_DIR}/create_packet.h
+        ${INCLUDE_DIR}/options.h
 )
 include_directories(${INCLUDE_DIR})
 
@@ -49,6 +51,6 @@ target_compile_options(hping_lite_v1 PRIVATE
         # Add more flags as needed
 )
 
-set_target_properties(hping_lite_v1 PROPERTIES OUTPUT_NAME "server")
+set_target_properties(hping_lite_v1 PROPERTIES OUTPUT_NAME "pkt_gen")
 install(TARGETS hping_lite_v1 DESTINATION bin)
 

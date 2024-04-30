@@ -5,12 +5,20 @@
 #ifndef PARSE_ARGS_H
 #define PARSE_ARGS_H
 
-#include <stdlib.h>
+#include <errno.h>
 #include <getopt.h>
-#include "globals.h"
+#include <inttypes.h>
+#include <netinet/in.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <stdio.h>
 
-int parse_args(int argc, char *argv[]);
+#include "options.h"
+
+int parse_args(int argc, char *argv[], struct options *opts);
 void print_help(void);
+in_port_t parse_in_port_t(const char *arg);
 
 /*
  * Default protocol is TCP,
@@ -41,9 +49,6 @@ void print_help(void);
  * -c --count count Stop after sending (and receiving) count response packets.
  * After last packet was send hping3 wait COUNTREACHED_TIMEOUT seconds target host replies.
  * You are able to tune COUNTREACHED_TIMEOUT editing hping3.h
- *
- *
- * :i:c:s:p:a:M:2rFSRPAU
  */
 
 #endif //PARSE_ARGS_H
