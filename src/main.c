@@ -1,6 +1,13 @@
+
+#include <arpa/inet.h>
+#include <unistd.h>
 #include <stdlib.h>
-#include "parse_args.h"
+#include <threads.h>
+#include <netinet/udp.h>
+#include <netinet/tcp.h>
+#include "create_packet.h"
 #include "options.h"
+#include "parse_args.h"
 
 void print_globals(struct options *opts);
 int open_raw_sock(int mode);
@@ -21,17 +28,63 @@ int main (int argc, char *argv[])
         return EXIT_FAILURE;
     }
     print_globals(opts);
-    //read the options, fill the packet
 
+    //read the options, fill the packet
+    char packet[PKT_LEN];
+    if(opts->mode == UDPMODE)
+    {
+        struct udphdr *udp_header = (struct udphdr *) packet;
+        udp_header->source = htons(opts->src_port);
+        udp_header->dest = htons(opts->dst_port);
+        udp_header->len = htons(sizeof(struct udphdr));
+        udp_header->check = checksum(packet, sizeof(packet));
+    }
+    else
+    {
+        struct tcphdr *tcp_header = (struct tcphdr *) packet;
+        tcp_header->source = htons(opts->src_port);
+        tcp_header->dest = htons(opts->dst_port);
+        tcp_header->seq = htonl(opts->tcp_seq_num);
+        tcp_header->ack_seq = 0;
+        tcp_header->doff = 5;
+        tcp_header->fin = opts->tcp_fin;
+        tcp_header->syn = opts->tcp_syn;
+        tcp_header->rst = opts->tcp_rst;
+        tcp_header->psh = opts->tcp_psh;
+        tcp_header->ack = opts->tcp_ack;
+        tcp_header->urg = opts->tcp_urg;
+        tcp_header->window = htons(5840);
+        tcp_header->urg_ptr = 0;
+        tcp_header->check = checksum(packet, sizeof(packet));
+    }
 
     //send the packet
     sockfd = open_raw_sock(opts->mode);
     if(sockfd == -1)
     {
         printf("socket failed\n");
+        clean_up_opts(opts);
         return EXIT_FAILURE;
     }
 
+    struct sockaddr_in dest_addr;
+    memset(&dest_addr, 0, sizeof(dest_addr));
+    dest_addr.sin_family = AF_INET;
+    dest_addr.sin_port = htons(opts->dst_port);
+    dest_addr.sin_addr.s_addr = inet_addr(opts->dst_addr);
+
+    //sendto(), check interval, count
+    for(int i = 0; i < opts->count; ++i)
+    {
+        sendto(sockfd, packet, PKT_LEN, 0, (struct sockaddr *) &dest_addr, sizeof(dest_addr));
+        if(opts->interval > 0)
+        {
+            sleep(opts->interval);
+        }
+
+    }
+
+    clean_up_opts(opts);
     return EXIT_SUCCESS;
 
 }

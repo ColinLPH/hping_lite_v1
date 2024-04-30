@@ -151,7 +151,7 @@ int parse_args(const int argc, char *argv[], struct options *opts)
 void print_help(void)
 {
     char msg[500] = "Flags:\n";
-    strcat(msg, "-i set interval (microseconds), default 1s\n-f send as fast as possible\n");
+    strcat(msg, "-i set interval (seconds), default 1s\n-f send as fast as possible\n");
     strcat(msg, "-2 udp mode, default tcp mode\n-a attach fake IP address\n");
     strcat(msg, "-s set source port\n-p set destination port\n");
     strcat(msg, "-M set the TCP sequence number, default is 0\n-c number of packets to send\n");

@@ -7,6 +7,8 @@
 
 #include <stdint.h>
 
-uint16_t checksum(uint8_t *buf, int len);
+#define PKT_LEN 512
+
+uint16_t checksum(char *buf, int len);
 
 #endif //CREATE_PACKET_H

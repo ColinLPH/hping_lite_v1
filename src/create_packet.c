@@ -4,7 +4,7 @@
 
 #include "create_packet.h"
 
-uint16_t checksum(uint8_t *buf, int len)
+uint16_t checksum(char *buf, int len)
 {
     uint32_t sum = 0;
 
